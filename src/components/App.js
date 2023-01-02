@@ -1,16 +1,33 @@
 import { Box, Heading } from '@chakra-ui/react';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
-import { getContacts } from 'redux/selectors';
+import { fetchContacts } from 'redux/operations';
+import { selectContacts, selectIsLoading, selectError } from 'redux/selectors';
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
+import { Loader } from './Loader/Loader';
 
 export const App = () => {
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(selectContacts);
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
+
   return (
     <Box maxW="1200px" mr="auto" ml="auto">
       <ContactForm />
+      {isLoading && !error && <Loader />}
+      {error && (
+        <Heading size="md" textAlign="center">
+          {error}
+        </Heading>
+      )}
       {contacts.length >= 1 && <Filter />}
       {contacts.length > 0 ? (
         <ContactList />

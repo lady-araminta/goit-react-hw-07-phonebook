@@ -2,12 +2,12 @@ import { Input, InputGroup, InputLeftElement, Stack } from '@chakra-ui/react';
 import { nanoid } from 'nanoid';
 import { AiOutlineFilter } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFilter } from 'redux/selectors';
+import { selectFilter } from 'redux/selectors';
 import { setFilter } from 'redux/filterSlice';
 
 export const Filter = () => {
   const filterId = nanoid();
-  const filter = useSelector(getFilter);
+  const filter = useSelector(selectFilter);
   const dispatch = useDispatch();
   return (
     <Stack maxW="sm" ml="auto" mr="auto" mb="16px">

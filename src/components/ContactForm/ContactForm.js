@@ -11,14 +11,15 @@ import {
   Flex,
 } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/contactsSlice';
 import { useState } from 'react';
-import { getContacts } from 'redux/selectors';
+import { selectContacts } from 'redux/selectors';
 import { toast } from 'react-toastify';
+import { nanoid } from 'nanoid';
+import { addContact } from 'redux/operations';
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(selectContacts);
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
@@ -55,7 +56,8 @@ export const ContactForm = () => {
       toast(`${number} is alredy in contacts`);
       return;
     }
-    dispatch(addContact(name, number));
+    const newContact = { id: nanoid(), name, number };
+    dispatch(addContact(newContact));
     reset();
   };
   return (
