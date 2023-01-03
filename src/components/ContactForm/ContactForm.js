@@ -44,21 +44,23 @@ export const ContactForm = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
+    console.log(e.target);
     const existingName = contacts.some(
       contact => contact.name.toLowerCase() === name.toLowerCase()
     );
     const existingNumber = contacts.some(contact => contact.number === number);
 
     if (existingName) {
-      toast(`${name} is alredy in contacts`);
+      toast(name + 'is alredy in contacts');
       return;
     } else if (existingNumber) {
       toast(`${number} is alredy in contacts`);
       return;
+    } else {
+      const newContact = { id: nanoid(), name, number };
+      dispatch(addContact(newContact));
+      reset();
     }
-    const newContact = { id: nanoid(), name, number };
-    dispatch(addContact(newContact));
-    reset();
   };
   return (
     <Card maxW="sm" ml="auto" mr="auto" mt="48px" mb="48px">

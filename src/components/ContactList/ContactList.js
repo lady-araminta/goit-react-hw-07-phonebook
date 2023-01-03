@@ -1,18 +1,13 @@
 import { Table, TableContainer, Tbody } from '@chakra-ui/react';
 import { ContactElem } from 'components/ContactElem/ContactElem';
 import { useSelector } from 'react-redux';
-import { selectContacts, selectFilter } from 'redux/selectors';
+import { selectVisibleContacts } from 'redux/selectors';
 
 export const ContactList = () => {
-  const users = useSelector(selectContacts);
-  const filter = useSelector(selectFilter);
-
-  const visibleContacts = users.filter(contact =>
-    contact.name.toLowerCase().includes(filter.toLowerCase().trim())
-  );
+  const visibleContacts = useSelector(selectVisibleContacts);
 
   return (
-    <TableContainer maxW="md" ml="auto" mr="auto">
+    <TableContainer maxW="lg" ml="auto" mr="auto">
       <Table variant="simple" size="sm">
         <Tbody>
           {visibleContacts.map(({ id, name, number }) => (

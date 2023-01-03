@@ -22,20 +22,19 @@ export const App = () => {
   return (
     <Box maxW="1200px" mr="auto" ml="auto">
       <ContactForm />
+      {contacts.length >= 1 && <Filter />}
       {isLoading && !error && <Loader />}
       {error && (
         <Heading size="md" textAlign="center">
           {error}
         </Heading>
       )}
-      {contacts.length >= 1 && <Filter />}
-      {contacts.length > 0 ? (
-        <ContactList />
-      ) : (
+      {contacts.length === 0 && !isLoading && (
         <Heading size="md" textAlign="center">
           There are no saved contacts in your phonebook
         </Heading>
       )}
+      {contacts.length > 0 && <ContactList />}
       <ToastContainer position="top-center" autoClose={2500} />
     </Box>
   );
