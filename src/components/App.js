@@ -1,7 +1,7 @@
 import { Box, Heading } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ToastContainer } from 'react-toastify';
+// import { ToastContainer } from 'react-toastify';
 import { fetchContacts } from 'redux/operations';
 import { selectContacts, selectIsLoading, selectError } from 'redux/selectors';
 import { ContactForm } from './ContactForm/ContactForm';
@@ -29,13 +29,13 @@ export const App = () => {
           {error}
         </Heading>
       )}
-      {contacts.length === 0 && !isLoading && (
+      {contacts.length === 0 && !isLoading && !error && (
         <Heading size="md" textAlign="center">
           There are no saved contacts in your phonebook
         </Heading>
       )}
       {contacts.length > 0 && <ContactList />}
-      <ToastContainer position="top-center" autoClose={2500} />
+      {/* <ToastContainer position="top-center" autoClose={2500} /> */}
     </Box>
   );
 };

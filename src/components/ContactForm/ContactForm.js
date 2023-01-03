@@ -9,11 +9,11 @@ import {
   CardBody,
   Heading,
   Flex,
+  useToast,
 } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { selectContacts } from 'redux/selectors';
-import { toast } from 'react-toastify';
 import { nanoid } from 'nanoid';
 import { addContact } from 'redux/operations';
 
@@ -22,6 +22,7 @@ export const ContactForm = () => {
   const contacts = useSelector(selectContacts);
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+  const toast = useToast();
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -44,21 +45,37 @@ export const ContactForm = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(e.target);
     const existingName = contacts.some(
       contact => contact.name.toLowerCase() === name.toLowerCase()
     );
     const existingNumber = contacts.some(contact => contact.number === number);
 
     if (existingName) {
-      toast(name + 'is alredy in contacts');
+      toast({
+        description: 'This contact is alredy in contacts',
+        position: 'top',
+        duration: 3000,
+      });
+      reset();
       return;
     } else if (existingNumber) {
-      toast(`${number} is alredy in contacts`);
+      toast({
+        description: 'This contact is alredy in contacts',
+        position: 'top',
+        duration: 3000,
+      });
+      reset();
       return;
     } else {
       const newContact = { id: nanoid(), name, number };
       dispatch(addContact(newContact));
+      toast({
+        title: 'Contact created',
+        description: "We've added this contact to the phonebook",
+        status: 'success',
+        position: 'top',
+        duration: 3000,
+      });
       reset();
     }
   };
